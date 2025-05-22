@@ -186,6 +186,10 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
         target: { value, selectionStart },
       } = event;
 
+      if (isComposing.current) {
+        return;
+      }
+
       processChange(value, selectionStart);
 
       onChange && onChange(event);
@@ -208,6 +212,8 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
       const {
         target: { value },
       } = event;
+
+      isComposing.current = false;
 
       const valueOnly = cleanValue({ value, ...cleanValueOptions });
 
@@ -367,17 +373,32 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
       return stateValue;
     };
 
+    const isComposing = useRef(false);
+
+    useEffect(() => {
+      if (inputRef.current) {
+        inputRef.current.addEventListener('compositionstart', (e: any) => {
+          isComposing.current = true;
+        });
+        inputRef.current.addEventListener('keyup', (e: any) => {
+          if (isComposing.current && !/^Key[A-Z]$/.test(e.code)) {
+              isComposing.current = false;
+          }
+        });
+      }
+    }, []);
+
     const inputProps: React.ComponentPropsWithRef<'input'> = {
       type: 'text',
       inputMode: 'decimal',
       id,
       name,
       className,
-      onChange: handleOnChange,
       onBlur: handleOnBlur,
       onFocus: handleOnFocus,
       onKeyDown: handleOnKeyDown,
       onKeyUp: handleOnKeyUp,
+      onChange: handleOnChange,
       placeholder,
       disabled,
       value: getRenderValue(),
