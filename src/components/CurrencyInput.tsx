@@ -382,10 +382,16 @@ export const CurrencyInput: FC<CurrencyInputProps> = forwardRef<
         });
         inputRef.current.addEventListener('keyup', (e: any) => {
           if (isComposing.current && !/^Key[A-Z]$/.test(e.code)) {
-              isComposing.current = false;
+            isComposing.current = false;
           }
         });
       }
+      return () => {
+        try {
+          inputRef.current && inputRef.current.removeEventListener('compositionstart', (e: any) => {});
+          inputRef.current && inputRef.current.removeEventListener('keyup', (e: any) => {});
+        } catch (error) {}
+      };
     }, []);
 
     const inputProps: React.ComponentPropsWithRef<'input'> = {

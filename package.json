@@ -1,5 +1,5 @@
 {
-  "name": "react-currency-input-field",
+  "name": "@orchid/react-currency-input-field",
   "version": "3.10.0",
   "description": "React <input/> component for formatting currency and numbers.",
   "files": [
@@ -11,7 +11,7 @@
   "types": "dist/index.d.ts",
   "homepage": "https://github.com/cchanxzy/react-currency-input-field",
   "scripts": {
-    "build": "rm -rf dist && tsc && rollup -c",
+    "build": " rollup -c",
     "start": "parcel src/examples/index.html --open",
     "test": "LANG=en_GB jest",
     "test-ci": "LANG=en_GB.UTF-8 cross-env NODE_ICU_DATA=node_modules/full-icu jest",
@@ -41,7 +41,7 @@
     "intl",
     "locale"
   ],
-  "author": "cchanxzy",
+  "author": "ererttw",
   "license": "MIT",
   "devDependencies": {
     "@commitlint/cli": "^18.4.3",
